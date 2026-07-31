@@ -1,0 +1,269 @@
+{
+  "$comment": "Правила стыков. over — что кладём, under — на что. Направление значимо: обратный стык описывается отдельной записью. status=reference означает общий вывод из химии семейства, а не подтверждённое производителем указание для конкретной пары продуктов.",
+  "rules": [
+    {
+      "over": "family:pu_1k_moisture",
+      "under": "family:bitumen",
+      "verdict": "needs_primer",
+      "rationale": "Масла и пластификаторы битума мигрируют вверх, размягчают полиуретановую плёнку и проступают пятнами. Требуется блокирующий слой.",
+      "conditions": [
+        "битум полностью выветрен, поверхность не липкая при +25 °C",
+        "блокирующий эпоксидный праймер по всей площади, без пропусков",
+        "обязательна выкраска на участке 1 м² с проверкой адгезии через 7 суток"
+      ],
+      "primer_families": ["epoxy_2k"],
+      "status": "reference"
+    },
+    {
+      "over": "family:pu_2k",
+      "under": "family:bitumen",
+      "verdict": "needs_primer",
+      "rationale": "Та же миграция масел; двухкомпонентный состав не даёт защиты от неё сам по себе.",
+      "conditions": ["блокирующий эпоксидный праймер", "выкраска на адгезию"],
+      "primer_families": ["epoxy_2k"],
+      "status": "reference"
+    },
+    {
+      "over": "family:acrylic_wb",
+      "under": "family:bitumen",
+      "verdict": "needs_primer",
+      "rationale": "Битум проступает сквозь водно-дисперсионный акрил жёлто-бурыми пятнами уже в первый сезон.",
+      "conditions": ["блокирующий праймер против миграции битума"],
+      "status": "reference"
+    },
+    {
+      "over": "family:bitumen",
+      "under": "family:pu_1k_moisture",
+      "verdict": "conditional",
+      "rationale": "Отверждённый полиуретан химически устойчив к холодным битумным составам, но наплавляемый горячий битум выходит за его температурный предел.",
+      "conditions": [
+        "только холодные битумные составы",
+        "проверить в TDS полиуретана верхний температурный предел эксплуатации",
+        "наплавление открытым пламенем исключено"
+      ],
+      "status": "reference"
+    },
+    {
+      "over": "family:pmma",
+      "under": "family:pu_1k_moisture",
+      "verdict": "incompatible",
+      "rationale": "Мономер ММА действует как растворитель: размягчает и вздувает полиуретановую плёнку под собой.",
+      "conditions": [],
+      "status": "reference"
+    },
+    {
+      "over": "family:pmma",
+      "under": "family:pu_2k",
+      "verdict": "incompatible",
+      "rationale": "Мономер ММА растворяет полиуретановое покрытие под собой.",
+      "status": "reference"
+    },
+    {
+      "over": "family:pu_1k_moisture",
+      "under": "family:pmma",
+      "verdict": "conditional",
+      "rationale": "Отверждённый ПММА как основание инертен, но поверхность гладкая и требует механической подготовки.",
+      "conditions": [
+        "шлифовка до матовой поверхности",
+        "праймер по указанию производителя верхнего слоя",
+        "выкраска на адгезию"
+      ],
+      "status": "reference"
+    },
+    {
+      "over": "family:pu_1k_moisture",
+      "under": "family:silicone",
+      "verdict": "incompatible",
+      "rationale": "Отверждённый силикон не принимает покрытий; следы силикона дают кратеры и точечные отслоения.",
+      "status": "reference"
+    },
+    {
+      "over": "family:epoxy_2k",
+      "under": "family:silicone",
+      "verdict": "incompatible",
+      "rationale": "Отверждённый силикон не принимает покрытий.",
+      "status": "reference"
+    },
+    {
+      "over": "family:pu_1k_moisture",
+      "under": "family:silane_siloxane",
+      "verdict": "incompatible",
+      "rationale": "Гидрофобизатор целенаправленно снижает смачивание поверхности — адгезия последующего слоя не обеспечивается.",
+      "conditions": [],
+      "status": "reference"
+    },
+    {
+      "over": "family:epoxy_2k",
+      "under": "family:silane_siloxane",
+      "verdict": "incompatible",
+      "rationale": "Гидрофобизированная поверхность не смачивается связующим.",
+      "status": "reference"
+    },
+    {
+      "over": "family:cementitious",
+      "under": "family:pu_1k_moisture",
+      "verdict": "needs_primer",
+      "rationale": "Цементный состав не сцепляется с гладкой отверждённой полиуретановой плёнкой.",
+      "conditions": [
+        "присыпка кварцевым песком по свежему, ещё липкому полиуретану",
+        "либо адгезионный мост, допущенный производителем цементного состава"
+      ],
+      "status": "reference"
+    },
+    {
+      "over": "family:cementitious_polymer",
+      "under": "family:pu_1k_moisture",
+      "verdict": "needs_primer",
+      "rationale": "То же: гладкая полимерная плёнка не даёт сцепления цементной матрице.",
+      "conditions": ["присыпка кварцем по свежему слою либо адгезионный мост"],
+      "status": "reference"
+    },
+    {
+      "over": "family:pu_1k_moisture",
+      "under": "family:cementitious",
+      "verdict": "conditional",
+      "rationale": "Стандартный стык, но полиуретан не терпит остаточной влаги основания и цементного молочка.",
+      "conditions": [
+        "цементное молочко снято механически, поверхность открыто-пористая",
+        "остаточная влажность основания в пределах, указанных в TDS полиуретана",
+        "праймер по указанию производителя",
+        "прочность основания на отрыв не ниже требуемой в TDS"
+      ],
+      "status": "reference"
+    },
+    {
+      "over": "family:pu_cement",
+      "under": "family:cementitious",
+      "verdict": "conditional",
+      "rationale": "Семейство разработано под влажные цементные основания и терпит более высокую остаточную влагу.",
+      "conditions": [
+        "поверхность подготовлена дробеструйно или фрезерованием",
+        "предел остаточной влажности уточнить в TDS — он выше, чем у обычного полиуретана, но не безграничен"
+      ],
+      "status": "reference"
+    },
+    {
+      "over": "family:epoxy_2k",
+      "under": "family:cementitious",
+      "verdict": "conditional",
+      "rationale": "Классический стык, ограниченный остаточной влагой и щёлочностью свежего бетона.",
+      "conditions": [
+        "бетон выдержан по возрасту, указанному в TDS",
+        "остаточная влажность ниже паспортного предела",
+        "молочко снято, открыта пористая структура"
+      ],
+      "status": "reference"
+    },
+    {
+      "over": "family:epoxy_wb",
+      "under": "family:cementitious",
+      "verdict": "conditional",
+      "rationale": "Паропроницаемый водно-дисперсионный эпоксид применяется по основаниям с повышенной остаточной влагой.",
+      "conditions": [
+        "предельная влажность основания — по TDS конкретной марки",
+        "не допускать подмерзания до полного высыхания"
+      ],
+      "status": "reference"
+    },
+    {
+      "over": "family:polyurea",
+      "under": "family:cementitious",
+      "verdict": "needs_primer",
+      "rationale": "Полимочевина гелеобразуется за секунды и не успевает смочить пористое основание; без праймера — поры и отслоение.",
+      "conditions": [
+        "праймер, допущенный производителем полимочевины",
+        "напыление в межслойное окно праймера"
+      ],
+      "primer_families": ["epoxy_2k", "pu_2k"],
+      "status": "reference"
+    },
+    {
+      "over": "family:pu_1k_moisture",
+      "under": "family:epoxy_2k",
+      "verdict": "conditional",
+      "rationale": "Стандартная связка «эпоксидный праймер — полиуретановая мембрана», но окно нанесения ограничено.",
+      "conditions": [
+        "нанесение в межслойное окно праймера",
+        "при выходе за окно — шлифовка и удаление аминного выпота",
+        "аминный выпот смыть водой и просушить"
+      ],
+      "status": "reference"
+    },
+    {
+      "over": "family:epoxy_2k",
+      "under": "family:epoxy_2k",
+      "verdict": "conditional",
+      "rationale": "Совместимо в пределах межслойного окна; за его границей мешает аминный выпот и гладкая поверхность.",
+      "conditions": [
+        "в межслойное окно — без подготовки",
+        "позже — смыть выпот, шлифовать до матовости"
+      ],
+      "status": "reference"
+    },
+    {
+      "over": "family:pu_1k_moisture",
+      "under": "family:pu_1k_moisture",
+      "verdict": "conditional",
+      "rationale": "Наращивание слоями одного состава — штатный режим в пределах межслойного окна.",
+      "conditions": [
+        "в межслойное окно — без подготовки",
+        "после верхней границы окна — шлифовка и праймер по указанию производителя"
+      ],
+      "status": "reference"
+    },
+    {
+      "over": "family:pu_1k_moisture",
+      "under": "family:silicate",
+      "verdict": "conditional",
+      "rationale": "Силикатная пропитка уплотняет поверхность и закрывает поры, снижая механическое зацепление.",
+      "conditions": [
+        "механическая подготовка после пропитки",
+        "обязательная выкраска на адгезию — результат зависит от глубины пропитки"
+      ],
+      "status": "reference"
+    },
+    {
+      "over": "family:epoxy_2k",
+      "under": "family:silicate",
+      "verdict": "conditional",
+      "rationale": "Уплотнённая силикатом поверхность хуже принимает эпоксид.",
+      "conditions": ["шлифовка или фрезерование", "выкраска на адгезию"],
+      "status": "reference"
+    },
+    {
+      "over": "family:bitumen_polymer",
+      "under": "family:cementitious",
+      "verdict": "conditional",
+      "rationale": "Штатный стык при условии битумного праймера и сухого основания.",
+      "conditions": ["битумный праймер", "основание сухое и обеспыленное"],
+      "status": "reference"
+    },
+    {
+      "over": "family:cementitious_polymer",
+      "under": "family:cementitious",
+      "verdict": "compatible",
+      "rationale": "Родственные системы на цементном вяжущем: сцепление обеспечивается гидратацией.",
+      "conditions": ["основание увлажнено до влажно-матового состояния без луж"],
+      "status": "reference"
+    },
+    {
+      "over": "family:silane_siloxane",
+      "under": "family:cementitious",
+      "verdict": "compatible",
+      "rationale": "Гидрофобизатор наносится по минеральному основанию и работает в его порах.",
+      "conditions": ["наносится последним: поверх него ничего не держится"],
+      "status": "reference"
+    },
+    {
+      "over": "family:acrylic_wb",
+      "under": "family:pu_1k_moisture",
+      "verdict": "conditional",
+      "rationale": "Водно-дисперсионный акрил по отверждённому полиуретану держится слабо и не добавляет гидроизоляции.",
+      "conditions": [
+        "шлифовка до матовости",
+        "не рассматривать как ремонт гидроизоляции — только как декоративный или отражающий слой"
+      ],
+      "status": "reference"
+    }
+  ]
+}

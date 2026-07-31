@@ -1,0 +1,16 @@
+{
+  "id": "isoflex-pu-500",
+  "name": "ISOFLEX-PU 500",
+  "manufacturer": "ISOMAT",
+  "family": "pu_1k_moisture",
+  "roles": ["membrane"],
+  "cure_mode": "moisture",
+  "components": 1,
+  "status_note": "Карточка заведена без TDS. Производитель и полное торговое наименование указаны по памяти и требуют сверки с документом: расхождение в индексе марки (500 / 500 BT / 560) означает другой продукт с другими пределами. Числовые параметры не заполнены намеренно — см. docs/TDS_CHECKLIST.md.",
+  "tds": null,
+  "application": {},
+  "cure": {},
+  "consumption": {},
+  "substrates": [],
+  "tags": ["кровля", "жидкая мембрана"]
+}

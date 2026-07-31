@@ -1,0 +1,97 @@
+{
+  "$comment": "Шаблон карточки. Скопировать, переименовать по id, заполнять только из открытого TDS. Поля, которых в TDS нет, оставлять отсутствующими — они попадут в отчёт о пробелах. Придумывать значения нельзя: неверно извлечённое число выглядит так же убедительно, как верное.",
+  "id": "manufacturer-product-slug",
+  "name": "Полное торговое наименование, как в TDS",
+  "manufacturer": "Производитель",
+  "family": "pu_1k_moisture",
+  "roles": ["membrane"],
+  "cure_mode": "moisture",
+  "components": 1,
+  "tds": {
+    "url": "https://…",
+    "revision": "обозначение редакции, как напечатано в документе",
+    "issued": "2024-03",
+    "retrieved": "2026-07-31",
+    "local_path": "tds/manufacturer/product.pdf"
+  },
+  "application": {
+    "substrate_temp_min_c": {
+      "value": 5,
+      "unit": "°C",
+      "status": "tds",
+      "source": "tds:manufacturer/product@2024-03#p2",
+      "note": "раздел «Условия нанесения»"
+    },
+    "substrate_temp_max_c": {
+      "value": 35,
+      "unit": "°C",
+      "status": "tds",
+      "source": "tds:manufacturer/product@2024-03#p2"
+    },
+    "dew_point_margin_k": {
+      "value": 3,
+      "unit": "K",
+      "status": "tds",
+      "source": "tds:manufacturer/product@2024-03#p2",
+      "note": "если TDS молчит — поле не заполнять, расчёт подставит 3 K как справочное значение"
+    },
+    "substrate_moisture_max_percent": {
+      "value": 4,
+      "unit": "%",
+      "status": "tds",
+      "source": "tds:manufacturer/product@2024-03#p2",
+      "note": "ОБЯЗАТЕЛЬНО указать метод замера: CM-метод, весовой или иной — цифры разных методов несопоставимы"
+    },
+    "ambient_rh_max_percent": {
+      "value": 85,
+      "unit": "%",
+      "status": "tds",
+      "source": "tds:manufacturer/product@2024-03#p2"
+    }
+  },
+  "cure": {
+    "reference_temp_c": {
+      "value": 20,
+      "unit": "°C",
+      "status": "tds",
+      "source": "tds:manufacturer/product@2024-03#p3",
+      "note": "температура, при которой производитель приводит времена — без неё пересчёт на другую температуру невозможен"
+    },
+    "reference_rh_percent": {
+      "value": 50,
+      "unit": "%",
+      "status": "tds",
+      "source": "tds:manufacturer/product@2024-03#p3"
+    },
+    "overcoat_min_h": {
+      "value": 6,
+      "unit": "ч",
+      "status": "tds",
+      "source": "tds:manufacturer/product@2024-03#p3"
+    },
+    "overcoat_max_h": {
+      "value": 48,
+      "unit": "ч",
+      "status": "tds",
+      "source": "tds:manufacturer/product@2024-03#p3",
+      "note": "верхняя граница окна: после неё требуется механическая подготовка"
+    }
+  },
+  "consumption": {
+    "per_coat_kg_m2": {
+      "value": 0.7,
+      "unit": "кг/м²",
+      "status": "tds",
+      "source": "tds:manufacturer/product@2024-03#p3"
+    },
+    "coats": {
+      "value": 2,
+      "unit": "шт",
+      "status": "tds",
+      "source": "tds:manufacturer/product@2024-03#p3"
+    }
+  },
+  "substrates": ["бетон", "цементная стяжка"],
+  "tags": [],
+  "aliases": []
+}

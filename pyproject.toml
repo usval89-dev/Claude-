@@ -1,0 +1,22 @@
+[project]
+name = "matdb"
+version = "0.1.0"
+description = "База материалов для гидроизоляции и наливных покрытий: расчёт условий нанесения и совместимость слоёв"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.scripts]
+matdb = "matdb.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["matdb"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

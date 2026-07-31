@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Точка росы — расчёт условий нанесения</title>
+<style>
+  :root {
+    --bg: #f7f7f5;
+    --card: #ffffff;
+    --ink: #1a1a18;
+    --muted: #6b6b66;
+    --line: #dcdcd6;
+    --ok: #1f7a3d;
+    --ok-bg: #e8f4ec;
+    --warn: #8a5a00;
+    --warn-bg: #fbf1dc;
+    --stop: #a32020;
+    --stop-bg: #fbe9e9;
+    --accent: #2b5c8a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16171a;
+      --card: #1e2024;
+      --ink: #e8e8e4;
+      --muted: #9a9a94;
+      --line: #33363c;
+      --ok: #6ec48c;
+      --ok-bg: #1b2b21;
+      --warn: #d9ab5a;
+      --warn-bg: #2c2519;
+      --stop: #e88a8a;
+      --stop-bg: #2e1d1d;
+      --accent: #7fb0dd;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 1rem;
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg); color: var(--ink);
+  }
+  main { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 1.4rem; margin: 0 0 .25rem; }
+  .sub { color: var(--muted); font-size: .9rem; margin: 0 0 1.25rem; }
+  .card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 10px; padding: 1rem; margin-bottom: 1rem;
+  }
+  .inputs { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+  label { display: block; font-weight: 600; font-size: .85rem; margin-bottom: .35rem; }
+  label .hint { display: block; font-weight: 400; color: var(--muted); font-size: .78rem; }
+  .row { display: flex; align-items: center; gap: .5rem; }
+  input[type=number] {
+    width: 100%; padding: .55rem .6rem; font-size: 1.15rem; font-variant-numeric: tabular-nums;
+    border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--ink);
+  }
+  input[type=range] { width: 100%; accent-color: var(--accent); }
+  .verdict {
+    border-radius: 10px; padding: 1rem; margin-bottom: 1rem;
+    border: 1px solid transparent;
+  }
+  .verdict h2 { margin: 0 0 .35rem; font-size: 1.15rem; }
+  .verdict p { margin: 0; font-size: .95rem; }
+  .v-ok   { background: var(--ok-bg);   border-color: var(--ok);   color: var(--ok); }
+  .v-warn { background: var(--warn-bg); border-color: var(--warn); color: var(--warn); }
+  .v-stop { background: var(--stop-bg); border-color: var(--stop); color: var(--stop); }
+  .grid { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+  .metric { border-left: 3px solid var(--line); padding-left: .7rem; }
+  .metric .k { font-size: .78rem; color: var(--muted); }
+  .metric .v { font-size: 1.25rem; font-variant-numeric: tabular-nums; font-weight: 600; }
+  .metric .u { font-size: .85rem; font-weight: 400; color: var(--muted); }
+  .metric.lead { border-left-color: var(--accent); }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+  th, td { text-align: left; padding: .4rem .5rem; border-bottom: 1px solid var(--line); }
+  th { font-size: .78rem; color: var(--muted); font-weight: 600; }
+  td.n, th.n { font-variant-numeric: tabular-nums; text-align: right; }
+  .scroll { overflow-x: auto; }
+  details { margin-top: .5rem; }
+  summary { cursor: pointer; font-size: .9rem; color: var(--accent); }
+  .fine { font-size: .82rem; color: var(--muted); }
+  .fine p { margin: .5rem 0; }
+  code { background: var(--bg); padding: .1em .3em; border-radius: 3px; font-size: .9em; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Точка росы и условия нанесения</h1>
+  <p class="sub">Работает без сети. Три замера на входе — вердикт и запас на выходе.</p>
+
+  <div class="card">
+    <div class="inputs">
+      <div>
+        <label for="air">Температура воздуха
+          <span class="hint">термометр в тени, на высоте работ</span></label>
+        <div class="row"><input type="number" id="air" value="12" step="0.5" min="-40" max="60"> °C</div>
+        <input type="range" id="airR" value="12" step="0.5" min="-20" max="50">
+      </div>
+      <div>
+        <label for="rh">Влажность воздуха
+          <span class="hint">гигрометр, не прогноз погоды</span></label>
+        <div class="row"><input type="number" id="rh" value="75" step="1" min="1" max="100"> %</div>
+        <input type="range" id="rhR" value="75" step="1" min="1" max="100">
+      </div>
+      <div>
+        <label for="surf">Температура основания
+          <span class="hint">контактный или ИК-термометр, по плите</span></label>
+        <div class="row"><input type="number" id="surf" value="9" step="0.5" min="-40" max="60"> °C</div>
+        <input type="range" id="surfR" value="9" step="0.5" min="-20" max="50">
+      </div>
+      <div>
+        <label for="margin">Требуемый запас
+          <span class="hint">из TDS; если не указан — 3 K</span></label>
+        <div class="row"><input type="number" id="margin" value="3" step="0.5" min="0" max="15"> K</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="verdict" id="verdict" role="status" aria-live="polite">
+    <h2 id="vTitle">—</h2>
+    <p id="vText"></p>
+  </div>
+
+  <div class="card">
+    <div class="grid">
+      <div class="metric lead">
+        <div class="k">Точка росы</div>
+        <div class="v"><span id="td">—</span><span class="u"> °C</span></div>
+      </div>
+      <div class="metric lead">
+        <div class="k">Запас основания над точкой росы</div>
+        <div class="v"><span id="delta">—</span><span class="u"> K</span></div>
+      </div>
+      <div class="metric">
+        <div class="k">Влажность у поверхности</div>
+        <div class="v"><span id="srh">—</span><span class="u"> %</span></div>
+      </div>
+      <div class="metric">
+        <div class="k">Абсолютная влажность</div>
+        <div class="v"><span id="ah">—</span><span class="u"> г/м³</span></div>
+      </div>
+      <div class="metric">
+        <div class="k">Влагосодержание</div>
+        <div class="v"><span id="mr">—</span><span class="u"> г/кг</span></div>
+      </div>
+      <div class="metric">
+        <div class="k">Мокрый термометр</div>
+        <div class="v"><span id="wb">—</span><span class="u"> °C</span></div>
+      </div>
+    </div>
+    <details>
+      <summary>Что означает «влажность у поверхности»</summary>
+      <p class="fine">Это относительная влажность тонкого слоя воздуха, лежащего
+      на плите: влагосодержание то же, что в объёме, а температура — основания.
+      Пока она ниже ~80 %, поверхность сохнет. При 100 % на плите конденсат,
+      даже если она выглядит и ощущается сухой. Именно эта величина, а не
+      влажность воздуха в помещении, объясняет «непонятные» отслоения.</p>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2 style="font-size:1rem;margin:0 0 .5rem">До какой температуры можно остудить основание</h2>
+    <p class="fine" style="margin-top:0">Точка росы задана воздухом и не зависит от
+    плиты. Столбец «запас» показывает, что останется, если основание остынет
+    к вечеру — плёнка к тому моменту может быть ещё открыта.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th class="n">Температура основания, °C</th><th class="n">Запас, K</th><th>Состояние</th></tr></thead>
+        <tbody id="tbl"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card fine">
+    <p><strong>Формулы.</strong> Давление насыщенного пара — аппроксимация Магнуса
+    в редакции Sonntag (1990) над водой: <code>es = 6.112·exp(17.62·t/(243.12+t))</code>,
+    погрешность менее 0.4 % в диапазоне −45…+60 °C. Точка росы — обратное
+    преобразование той же формулы. Относительная влажность везде отсчитывается
+    от насыщения над водой, как её показывают приборы.</p>
+    <p><strong>Чего расчёт не знает.</strong> Он не знает вашего материала: порог
+    3 K — общее правило лакокрасочных работ, а не паспортное требование
+    конкретного продукта. Он не знает остаточной влажности основания — её
+    измеряют отдельно. Он считает по одному замеру в одной точке: на большой
+    захватке плита в тени и на солнце различается сильнее, чем весь запас
+    над точкой росы.</p>
+  </div>
+</main>
+
+<script>
+"use strict";
+const A = 6.112, B = 17.62, C = 243.12;
+
+const es = t => A * Math.exp(B * t / (C + t));
+const e  = (t, rh) => es(t) * rh / 100;
+const dewPoint = (t, rh) => {
+  const g = Math.log(e(t, rh) / A);
+  return C * g / (B - g);
+};
+const surfaceRh = (t, rh, ts) => 100 * e(t, rh) / es(ts);
+const absHumidity = (t, rh) => 1000 * (e(t, rh) * 100) / (461.5 * (t + 273.15));
+const mixingRatio = (t, rh) => 1000 * 0.621945 * e(t, rh) / (1013.25 - e(t, rh));
+const wetBulb = (t, rh) => {
+  if (rh < 5 || rh > 99 || t < -20 || t > 50) return null;
+  return t * Math.atan(0.151977 * Math.sqrt(rh + 8.313659))
+       + Math.atan(t + rh) - Math.atan(rh - 1.676331)
+       + 0.00391838 * Math.pow(rh, 1.5) * Math.atan(0.023101 * rh) - 4.686035;
+};
+
+const $ = id => document.getElementById(id);
+const pairs = [["air", "airR"], ["rh", "rhR"], ["surf", "surfR"]];
+
+function classify(delta, required) {
+  if (delta <= 0) return ["v-stop", "Наносить нельзя",
+    `Основание на ${Math.abs(delta).toFixed(1)} K ниже точки росы — конденсация идёт прямо сейчас. Плёнка, уложенная на невидимую воду, отслоится.`];
+  if (delta < required) return ["v-stop", "Наносить нельзя",
+    `Запас ${delta.toFixed(1)} K меньше требуемых ${required.toFixed(1)} K. Формально плита суше точки росы, но резерва на колебания нет.`];
+  if (delta < required + 2) return ["v-warn", "На границе",
+    `Запас ${delta.toFixed(1)} K при требуемых ${required.toFixed(1)} K. Годится только при устойчивой погоде и коротком фронте работ — контролируйте замер каждый час.`];
+  return ["v-ok", "Условия по точке росы допустимы",
+    `Запас ${delta.toFixed(1)} K при требуемых ${required.toFixed(1)} K. Остальные ограничения — температура, влажность основания, ветер — проверяются отдельно.`];
+}
+
+function render() {
+  const t = parseFloat($("air").value);
+  const rh = parseFloat($("rh").value);
+  const ts = parseFloat($("surf").value);
+  const required = parseFloat($("margin").value);
+  if ([t, rh, ts, required].some(x => !isFinite(x)) || rh < 1 || rh > 100) return;
+
+  const td = dewPoint(t, rh);
+  const delta = ts - td;
+  const srh = surfaceRh(t, rh, ts);
+  const wb = wetBulb(t, rh);
+
+  $("td").textContent = td.toFixed(1);
+  $("delta").textContent = (delta >= 0 ? "+" : "") + delta.toFixed(1);
+  $("srh").textContent = srh > 100 ? "100+" : srh.toFixed(0);
+  $("ah").textContent = absHumidity(t, rh).toFixed(1);
+  $("mr").textContent = mixingRatio(t, rh).toFixed(1);
+  $("wb").textContent = wb === null ? "—" : wb.toFixed(1);
+
+  const [cls, title, text] = classify(delta, required);
+  const v = $("verdict");
+  v.className = "verdict " + cls;
+  $("vTitle").textContent = title;
+  $("vText").textContent = text;
+
+  const rows = [];
+  for (let d = 4; d >= -4; d--) {
+    const temp = Math.round(ts) + d;
+    const m = temp - td;
+    let state, colour;
+    if (m <= 0)          { state = "конденсация"; colour = "var(--stop)"; }
+    else if (m < required) { state = "ниже требуемого запаса"; colour = "var(--stop)"; }
+    else if (m < required + 2) { state = "на границе"; colour = "var(--warn)"; }
+    else                 { state = "допустимо"; colour = "var(--ok)"; }
+    const here = temp === Math.round(ts) ? ' style="font-weight:700"' : "";
+    rows.push(`<tr${here}><td class="n">${temp}</td><td class="n">${(m >= 0 ? "+" : "") + m.toFixed(1)}</td><td style="color:${colour}">${state}</td></tr>`);
+  }
+  $("tbl").innerHTML = rows.join("");
+}
+
+for (const [num, rng] of pairs) {
+  $(num).addEventListener("input", () => { $(rng).value = $(num).value; render(); });
+  $(rng).addEventListener("input", () => { $(num).value = $(rng).value; render(); });
+}
+$("margin").addEventListener("input", render);
+render();
+</script>
+</body>
+</html>
