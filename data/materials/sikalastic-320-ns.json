@@ -1,0 +1,22 @@
+{
+  "id": "sikalastic-320-ns",
+  "name": "Sikalastic-320 NS",
+  "manufacturer": "Sika",
+  "family": "pu_bitumen",
+  "roles": [
+    "membrane"
+  ],
+  "cure_mode": "moisture",
+  "components": 1,
+  "status_note": "Документ не открыт: сетевая политика окружения блокирует домены производителей. Идентификация (производитель, наименование, тип) взята из описания продукта на сайте производителя; семейство определено по этому описанию и требует подтверждения по TDS. Числовых параметров нет — см. docs/FETCH_QUEUE.md.",
+  "tds": {
+    "url": "https://usa.sika.com/en/construction/repair-protection/coatings-water-repellents/waterproofing-coatings/polyurethane/sikalastic-320-ns.html"
+  },
+  "application": {},
+  "cure": {},
+  "consumption": {},
+  "substrates": [],
+  "tags": [
+    "битумное основание"
+  ]
+}

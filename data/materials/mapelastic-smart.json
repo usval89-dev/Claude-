@@ -1,0 +1,23 @@
+{
+  "id": "mapelastic-smart",
+  "name": "Mapelastic Smart",
+  "manufacturer": "MAPEI",
+  "family": "cementitious_polymer",
+  "roles": [
+    "membrane"
+  ],
+  "cure_mode": "hydration",
+  "components": 2,
+  "status_note": "Ссылка ведёт на агрегатор, а не на сайт производителя — заменить на каноничную при заполнении. Документ не открыт: сетевая политика окружения блокирует домены производителей. Идентификация (производитель, наименование, тип) взята из описания продукта на сайте производителя; семейство определено по этому описанию и требует подтверждения по TDS. Числовых параметров нет — см. docs/FETCH_QUEUE.md.",
+  "tds": {
+    "url": "https://www.archiproducts.com/en/products/mapei/cement-based-waterproofing-product-mapelastic-smart_14349"
+  },
+  "application": {},
+  "cure": {},
+  "consumption": {},
+  "substrates": [],
+  "tags": [
+    "балконы",
+    "террасы"
+  ]
+}

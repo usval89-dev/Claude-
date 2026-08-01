@@ -1,0 +1,23 @@
+{
+  "id": "hyperdesmo-classic",
+  "name": "HYPERDESMO Classic",
+  "manufacturer": "ALCHIMICA",
+  "family": "pu_1k_moisture",
+  "roles": [
+    "membrane"
+  ],
+  "cure_mode": "moisture",
+  "components": 1,
+  "status_note": "Документ не открыт: сетевая политика окружения блокирует домены производителей. Идентификация (производитель, наименование, тип) взята из описания продукта на сайте производителя; семейство определено по этому описанию и требует подтверждения по TDS. Числовых параметров нет — см. docs/FETCH_QUEUE.md.",
+  "tds": {
+    "url": "https://www.alchimica.com/products/liquid-applied-waterproofing-membranes/p/hyperdesmo-classic/"
+  },
+  "application": {},
+  "cure": {},
+  "consumption": {},
+  "substrates": [],
+  "tags": [
+    "кровля",
+    "жидкая мембрана"
+  ]
+}

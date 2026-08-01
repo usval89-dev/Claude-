@@ -1,0 +1,23 @@
+{
+  "id": "sikalastic-8850",
+  "name": "Sikalastic-8850",
+  "manufacturer": "Sika",
+  "family": "polyurea",
+  "roles": [
+    "membrane"
+  ],
+  "cure_mode": "chemical",
+  "components": 2,
+  "status_note": "Напыляемая полимочевина: требует установки высокого давления с подогревом и обязательного праймера. Двухкомпонентная. Документ не открыт: сетевая политика окружения блокирует домены производителей. Идентификация (производитель, наименование, тип) взята из описания продукта на сайте производителя; семейство определено по этому описанию и требует подтверждения по TDS. Числовых параметров нет — см. docs/FETCH_QUEUE.md.",
+  "tds": {
+    "url": "https://gcc.sika.com/en/construction/waterproofing/liquid-applied-membrane/sikalastic-8850.html"
+  },
+  "application": {},
+  "cure": {},
+  "consumption": {},
+  "substrates": [],
+  "tags": [
+    "напыление",
+    "оборудование"
+  ]
+}

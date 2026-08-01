@@ -1,0 +1,22 @@
+{
+  "id": "triflex-protect",
+  "name": "Triflex ProTect",
+  "manufacturer": "Triflex",
+  "family": "pmma",
+  "roles": [
+    "membrane"
+  ],
+  "cure_mode": "chemical",
+  "components": 2,
+  "status_note": "Документ не открыт: сетевая политика окружения блокирует домены производителей. Идентификация (производитель, наименование, тип) взята из описания продукта на сайте производителя; семейство определено по этому описанию и требует подтверждения по TDS. Числовых параметров нет — см. docs/FETCH_QUEUE.md.",
+  "tds": {
+    "url": "https://www.triflex.com/en/triflex-protect-technical-details"
+  },
+  "application": {},
+  "cure": {},
+  "consumption": {},
+  "substrates": [],
+  "tags": [
+    "кровля"
+  ]
+}

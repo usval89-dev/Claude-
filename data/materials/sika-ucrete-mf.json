@@ -1,0 +1,22 @@
+{
+  "id": "sika-ucrete-mf",
+  "name": "Sika Ucrete MF",
+  "manufacturer": "Sika",
+  "family": "pu_cement",
+  "roles": [
+    "screed"
+  ],
+  "cure_mode": "hydration",
+  "components": 2,
+  "status_note": "Документ не открыт: сетевая политика окружения блокирует домены производителей. Идентификация (производитель, наименование, тип) взята из описания продукта на сайте производителя; семейство определено по этому описанию и требует подтверждения по TDS. Числовых параметров нет — см. docs/FETCH_QUEUE.md.",
+  "tds": {
+    "url": "https://usa.sika.com/en/construction/floor-wall/flooring-products/polyurethane-cement/sika-ucrete-mf.html"
+  },
+  "application": {},
+  "cure": {},
+  "consumption": {},
+  "substrates": [],
+  "tags": [
+    "промышленный пол"
+  ]
+}

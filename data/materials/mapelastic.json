@@ -1,0 +1,24 @@
+{
+  "id": "mapelastic",
+  "name": "Mapelastic",
+  "manufacturer": "MAPEI",
+  "family": "cementitious_polymer",
+  "roles": [
+    "membrane"
+  ],
+  "cure_mode": "hydration",
+  "components": 2,
+  "status_note": "Документ не открыт: сетевая политика окружения блокирует домены производителей. Идентификация (производитель, наименование, тип) взята из описания продукта на сайте производителя; семейство определено по этому описанию и требует подтверждения по TDS. Числовых параметров нет — см. docs/FETCH_QUEUE.md.",
+  "tds": {
+    "url": "https://www.mapei.com/us/en-us/products-and-solutions/products/detail/mapelastic"
+  },
+  "application": {},
+  "cure": {},
+  "consumption": {},
+  "substrates": [],
+  "tags": [
+    "санузлы",
+    "балконы",
+    "бассейны"
+  ]
+}

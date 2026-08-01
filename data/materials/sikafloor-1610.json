@@ -1,0 +1,23 @@
+{
+  "id": "sikafloor-1610",
+  "name": "Sikafloor-1610",
+  "manufacturer": "Sika",
+  "family": "epoxy_2k",
+  "roles": [
+    "primer"
+  ],
+  "cure_mode": "chemical",
+  "components": 2,
+  "status_note": "Заявлен как толерантный к влаге. ВАЖНО: предел влажности у таких праймеров обычно задан по шкале конкретного прибора, а не в процентах массы — при заполнении карточки метод замера обязателен. Документ не открыт: сетевая политика окружения блокирует домены производителей. Идентификация (производитель, наименование, тип) взята из описания продукта на сайте производителя; семейство определено по этому описанию и требует подтверждения по TDS. Числовых параметров нет — см. docs/FETCH_QUEUE.md.",
+  "tds": {
+    "url": "https://usa.sika.com/en/construction-products/flooring/flooring-productsbysystem/moisture-mitigation/moisture-mitigation/sikafloor-1610-moisturetolerant/sikafloor-1610.html"
+  },
+  "application": {},
+  "cure": {},
+  "consumption": {},
+  "substrates": [],
+  "tags": [
+    "праймер",
+    "влажное основание"
+  ]
+}

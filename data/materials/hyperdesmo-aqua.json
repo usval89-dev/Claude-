@@ -1,0 +1,24 @@
+{
+  "id": "hyperdesmo-aqua",
+  "name": "HYPERDESMO AQUA",
+  "manufacturer": "ALCHIMICA",
+  "family": "pu_1k_wb",
+  "roles": [
+    "topcoat",
+    "membrane"
+  ],
+  "cure_mode": "evaporation",
+  "components": 1,
+  "status_note": "Заявлен как алифатический на водной основе — применяется как защитный финиш по ароматическому полиуретану. Документ не открыт: сетевая политика окружения блокирует домены производителей. Идентификация (производитель, наименование, тип) взята из описания продукта на сайте производителя; семейство определено по этому описанию и требует подтверждения по TDS. Числовых параметров нет — см. docs/FETCH_QUEUE.md.",
+  "tds": {
+    "url": "https://www.alchimica.com/products/liquid-applied-waterproofing-membranes/waterbased-polyurethane/p/hyperdesmo-aqua/"
+  },
+  "application": {},
+  "cure": {},
+  "consumption": {},
+  "substrates": [],
+  "tags": [
+    "финишный слой",
+    "УФ-стойкий"
+  ]
+}

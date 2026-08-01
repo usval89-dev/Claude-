@@ -1,0 +1,23 @@
+{
+  "id": "mapelastic-foundation",
+  "name": "Mapelastic Foundation",
+  "manufacturer": "MAPEI",
+  "family": "cementitious_polymer",
+  "roles": [
+    "membrane"
+  ],
+  "cure_mode": "hydration",
+  "components": 2,
+  "status_note": "Заявлена работа на отрицательное давление воды. Ссылка ведёт в каталог производителя и требует проверки: возможно, указывает на соседний продукт линейки. Документ не открыт: сетевая политика окружения блокирует домены производителей. Идентификация (производитель, наименование, тип) взята из описания продукта на сайте производителя; семейство определено по этому описанию и требует подтверждения по TDS. Числовых параметров нет — см. docs/FETCH_QUEUE.md.",
+  "tds": {
+    "url": "https://www.mapei.com/it/en/products-and-solutions/products/detail/mapelastic-zero"
+  },
+  "application": {},
+  "cure": {},
+  "consumption": {},
+  "substrates": [],
+  "tags": [
+    "фундамент",
+    "отрицательное давление"
+  ]
+}

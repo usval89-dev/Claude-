@@ -9,7 +9,7 @@ from pathlib import Path
 from .application import Severity, check_application, cure_schedule
 from .compat import Compat
 from .loader import DATA_DIR, Database, DataError, load
-from .models import Family
+from .models import REQUIRED_APPLICATION_FIELDS, Family
 from .psychro import PsychroRangeError, measure
 from .values import Status
 
@@ -99,13 +99,84 @@ def cmd_compat(args: argparse.Namespace) -> int:
 
 def cmd_gaps(args: argparse.Namespace) -> int:
     db = _db(args)
-    gaps = db.gaps()
-    if not gaps:
-        print("Пробелов нет.")
+    materials = sorted(db, key=lambda m: m.id)
+    if args.family:
+        materials = [m for m in materials if m.family.value == args.family]
+        if not materials:
+            print(f"Нет материалов семейства {args.family}.")
+            return 0
+
+    if args.all:
+        total = 0
+        for material in materials:
+            lines = [str(g) for g in material.gaps()]
+            total += len(lines)
+            for line in lines:
+                print(f"  {line}")
+        print(f"\nВсего незаполненных параметров: {total}")
         return 0
-    print(f"Незаполненных параметров: {len(gaps)}\n")
-    for line in gaps:
-        print(f"  {line}")
+
+    # По умолчанию — только ключевые поля: полный список из сотен строк
+    # не является рабочей очередью, он является шумом.
+    empty: list[str] = []
+    partial: list[tuple[str, list[str]]] = []
+    for material in materials:
+        r = material.readiness()
+        if r.counts[Status.UNKNOWN] == r.total:
+            empty.append(material.id)
+        elif r.missing_required:
+            partial.append((material.id, list(r.missing_required)))
+
+    if partial:
+        print("Начаты, но не хватает ключевых полей:\n")
+        for mid, missing in partial:
+            print(f"  {mid}")
+            for f in missing:
+                print(f"      {f}")
+        print()
+    if empty:
+        print(f"Пусты, заполнены только идентификация ({len(empty)}):")
+        print("      " + ", ".join(empty))
+        print()
+    if not partial and not empty:
+        print("Ключевые поля заполнены во всех карточках.")
+        return 0
+    print(
+        f"Ключевых полей на карточку: {len(REQUIRED_APPLICATION_FIELDS)}. "
+        "Полный список всех пробелов: --all"
+    )
+    return 0
+
+
+def cmd_queue(args: argparse.Namespace) -> int:
+    """Очередь на загрузку: какие документы нужны и куда их класть."""
+    db = _db(args)
+    pending = [
+        m for m in sorted(db, key=lambda x: (x.manufacturer, x.id))
+        if not m.readiness().usable_on_site
+    ]
+    if not pending:
+        print("Все карточки заполнены и подтверждены.")
+        return 0
+
+    by_mfr: dict[str, list] = {}
+    for material in pending:
+        by_mfr.setdefault(material.manufacturer, []).append(material)
+
+    print(f"Документов к загрузке: {len(pending)}\n")
+    for mfr, materials in by_mfr.items():
+        print(f"{mfr}")
+        for m in materials:
+            url = m.tds.url if m.tds else None
+            print(f"  {m.id}  ({m.family.value})")
+            print(f"      {url or 'адрес документа не найден'}")
+        print()
+    print("Порядок работы с каждым документом:")
+    print("  1. Скачать в tds/<производитель>/<продукт>.pdf")
+    print("  2. python tools/extract_tds.py <файл> --id <id> --revision <редакция> --write")
+    print("  3. Сверить цитаты из отчёта с документом")
+    print("  4. Проставить status=verified, verified_by, verified_at")
+    print("\nШаг 4 не автоматизируется: ответственность за число берёт тот, кто его подтвердил.")
     return 0
 
 
@@ -114,16 +185,32 @@ def cmd_status(args: argparse.Namespace) -> int:
     if not db:
         print("В базе нет ни одного материала.")
         return 0
-    print(f"Материалов: {len(db)}, правил совместимости: {len(db.compatibility.rules)}\n")
-    usable = 0
-    for material in sorted(db, key=lambda m: m.id):
-        r = material.readiness()
-        usable += r.usable_on_site
-        print(f"  {r.summary()}")
+    print(f"Материалов: {len(db)}, правил совместимости: {len(db.compatibility.rules)}")
+
+    by_family: dict[str, list[str]] = {}
+    for material in db:
+        by_family.setdefault(material.family.value, []).append(material.id)
+    print("\nПо семействам:")
+    for family, ids in sorted(by_family.items(), key=lambda kv: (-len(kv[1]), kv[0])):
+        print(f"  {family:<24} {len(ids)}")
+
+    started = [m for m in sorted(db, key=lambda x: x.id)
+               if m.readiness().counts[Status.UNKNOWN] < m.readiness().total]
+    usable = [m for m in db if m.readiness().usable_on_site]
+    if started:
+        print("\nС заполненными параметрами:")
+        for material in started:
+            print(f"  {material.readiness().summary()}")
+
     print(
-        f"\nПригодны для решения на объекте: {usable} из {len(db)}. "
-        "Остальные — заготовки, по которым нельзя давать рекомендацию."
+        f"\nЗаготовок без единого параметра: {len(db) - len(started)} из {len(db)}."
+        f"\nПригодны для решения на объекте: {len(usable)} из {len(db)}."
     )
+    if not usable:
+        print(
+            "\nНи по одной карточке нельзя давать рекомендацию: числовых данных нет. "
+            "Очередь на загрузку документов — docs/FETCH_QUEUE.md."
+        )
     return 0
 
 
@@ -162,10 +249,15 @@ def build_parser() -> argparse.ArgumentParser:
     compat.set_defaults(func=cmd_compat)
 
     gaps = sub.add_parser("gaps", help="очередь на извлечение из TDS")
+    gaps.add_argument("--all", action="store_true", help="все пробелы, а не только ключевые")
+    gaps.add_argument("--family", default=None, help="ограничить одним семейством")
     gaps.set_defaults(func=cmd_gaps)
 
     status = sub.add_parser("status", help="готовность карточек")
     status.set_defaults(func=cmd_status)
+
+    queue = sub.add_parser("queue", help="очередь на загрузку документов")
+    queue.set_defaults(func=cmd_queue)
     return p
 
 
